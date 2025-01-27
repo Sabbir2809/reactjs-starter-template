@@ -1,5 +1,5 @@
-import { CircleX, Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { LuCircleX, LuCloudUpload, LuX } from "react-icons/lu";
 import { toast } from "react-toastify";
 import Friday from "../../utils/Friday";
 
@@ -31,7 +31,7 @@ function PhotoUploader({ onUploaded }: Props) {
       formData.append("frontImage", image);
       formData.append("documentType", "static_image");
 
-      const apiUrl = `${import.meta.env.VITE_CDN_MEDIA_UPLOAD_URL}/admin/document/upload`;
+      const apiUrl = `${import.meta.env.VITE_CDN_UPLOAD_URL}/admin/document/upload`;
       const response = await Friday.upload(new URL(apiUrl), formData);
 
       if (response) {
@@ -46,7 +46,7 @@ function PhotoUploader({ onUploaded }: Props) {
   };
 
   return (
-    <div className="border p-4 rounded-lg shadow">
+    <div className="border p-4 rounded-lg shadow-sm">
       <div className="relative">
         {image && (
           <img width={100} height={100} src={URL.createObjectURL(image)} alt="uploader" />
@@ -54,7 +54,7 @@ function PhotoUploader({ onUploaded }: Props) {
         <label>
           {!image && (
             <div className="flex flex-col items-center justify-center cursor-pointer p-4">
-              <Upload />
+              <LuCloudUpload />
               <p className="mt-2 text-sm text-gray-600">Select an image</p>
             </div>
           )}
@@ -66,7 +66,7 @@ function PhotoUploader({ onUploaded }: Props) {
             <button
               onClick={handleReset}
               className="bg-blue-500 text-white p-2 rounded-full">
-              <CircleX />
+              <LuCircleX />
             </button>
             <button
               onClick={handleUploadToCloud}
@@ -77,7 +77,7 @@ function PhotoUploader({ onUploaded }: Props) {
               {upload ? (
                 <div className="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent" />
               ) : (
-                <Upload />
+                <LuCloudUpload />
               )}
               <span className="ml-2">{upload ? "Uploading..." : "Upload"}</span>
             </button>
@@ -139,7 +139,7 @@ export const PhotoUploadModal = ({
               aria-label="close"
               onClick={onCloseModal}
               className="text-gray-600 hover:text-gray-800">
-              <X />
+              <LuX />
             </button>
           )}
         </div>

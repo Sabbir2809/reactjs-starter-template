@@ -38,7 +38,7 @@
      VITE_WRITE_BASE_URL=
      VITE_READER_BASE_URL=
 
-     VITE_CDN_MEDIA_UPLOAD_URL=
+     VITE_CDN_UPLOAD_URL=
    ```
 
 4. Run the development server:
