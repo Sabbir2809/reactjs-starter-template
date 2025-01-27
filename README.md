@@ -9,7 +9,7 @@
 ## Technology Stack
 
 - **Programming Language:** TypeScript
-- **Web Library:** React.js
+- **Web Library:** `react @tanstack/react-query axios js-cookie react-icons, react-router-dom react-toastify`
 - **State Management:** Context API
 - **Authentication:** JWT (JSON Web Tokens)
 
@@ -29,16 +29,18 @@
 3. Setup environment variables in `.env`.
 
    ```bash
-     VITE_JWT_TOKEN_KEY=_token
-     VITE_AUTH_USER_KEY=_auth
-     VITE_AUTH_USER_TYPE=USER
-     VITE_REFRESH_TOKEN=_refresh_token
+   VITE_ENVIRONMENT=
 
-     VITE_AUTH_BASE_URL=
-     VITE_WRITE_BASE_URL=
-     VITE_READER_BASE_URL=
+   VITE_JWT_TOKEN_KEY=
+   VITE_AUTH_USER_KEY=
+   VITE_AUTH_USER_TYPE=
+   VITE_REFRESH_TOKEN=
 
-     VITE_CDN_UPLOAD_URL=
+   VITE_AUTH_BASE_URL=
+   VITE_WRITE_BASE_URL=
+   VITE_READER_BASE_URL=
+
+   VITE_CDN_UPLOAD_URL=
    ```
 
 4. Run the development server:
