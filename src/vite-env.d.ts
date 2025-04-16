@@ -1,18 +1,19 @@
 /// <reference types="vite/client" />
 
-interface IAuthContext {
-  isLoading: boolean;
-  auth?: IAuth;
-  updateAuth: (auth: IAuth) => void;
-  login: (mobileNumber: string, password: string) => void;
-  register: (data: object) => void;
-  logout: () => void;
-  refreshAuth: () => Promise<void>;
-}
-
 interface IAuth {
   name: string;
   email: string;
+  phone: string;
   type: string;
   isPhoneVerified: boolean;
+}
+
+interface IAuthContext {
+  isLoading: boolean;
+  auth?: IAuth;
+  registration: (data: IAuth) => Promise<void>;
+  login: (phone: string, password: string) => Promise<void>;
+  updateAuth: (auth: IAuth) => void;
+  refreshAuth: () => Promise<void>;
+  logout: () => void;
 }

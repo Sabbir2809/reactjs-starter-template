@@ -1,24 +1,28 @@
+import { Link } from "react-router-dom";
+
 export default function NotFoundPage() {
   return (
-    <section className="bg-white">
-      <div className="py-8 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">
-        <div className="mx-auto max-w-(--breakpoint-sm) text-center">
-          <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600">
-            404
-          </h1>
-          <p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">
-            Somethings missing.
-          </p>
-          <p className="mb-4 text-lg font-light text-gray-500">
-            Sorry, we can not find that page. You will find lots to explore on the home
-            page.
-          </p>
-          <a
-            href="/"
-            className="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-hidden focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4">
-            Back to Homepage
-          </a>
-        </div>
+    <section className="flex items-center justify-center min--h-screen px-6">
+      <div className="text-center w-full max-w-md p-8">
+        <img
+          src={"404.png"}
+          alt="Page Not Found"
+          width={300}
+          height={300}
+          className="mx-auto mb-6"
+        />
+        <h1 className="text-3xl font-semibold text-green-600 mb-4">
+          Page Not Found!
+        </h1>
+        <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+          Sorry! The page you are looking for does not exist. Please return to
+          the homepage.
+        </p>
+        <Link
+          to="/"
+          className="inline-block px-6 py-3 bg-green-600 text-white font-semibold uppercase hover:bg-green-700 transition">
+          Go to Homepage
+        </Link>
       </div>
     </section>
   );

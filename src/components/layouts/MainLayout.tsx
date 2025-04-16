@@ -1,5 +1,5 @@
-import Footer from "../common/Footer";
-import Navbar from "../common/Navbar";
+import Footer from "../shared/Footer";
+import Navbar from "../shared/Navbar";
 
 export default function MainLayout() {
   return (

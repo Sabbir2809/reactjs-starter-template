@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { getJWTToken } from "../utils/getAuthorizationHeader";
+import { getJWT } from "../utils/JWT";
 
 type TPrivateRoutesProps = {
   children: ReactNode;
@@ -10,7 +10,7 @@ type TPrivateRoutesProps = {
 
 const PrivateRoutes = ({ children, role }: TPrivateRoutesProps) => {
   const { logout, auth } = useAuth();
-  const token = getJWTToken();
+  const token = getJWT();
 
   // Redirect to login if no token is found
   if (!token) {
