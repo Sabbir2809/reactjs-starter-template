@@ -6,7 +6,7 @@ export const getToken = (tokenKey: string): string | null => {
 };
 
 export const setToken = (tokenKey: string, token: string) => {
-  Cookies.set(tokenKey, token, { expires: 7 });
+  Cookies.set(tokenKey, token);
   localStorage.setItem(tokenKey, token);
 };
 
