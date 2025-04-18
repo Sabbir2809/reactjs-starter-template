@@ -5,9 +5,8 @@ export const initialState: IAuthContext = {
   auth: undefined,
   registration: async () => {},
   login: async () => {},
-  updateAuth: () => {},
-  refreshAuth: async () => {},
   logout: () => {},
+  refreshToken: async () => {},
 };
 
 export const AuthContext = createContext<IAuthContext>(initialState);

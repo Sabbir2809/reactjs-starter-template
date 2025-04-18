@@ -1,69 +1,49 @@
 import Cookies from "js-cookie";
 import { ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AUTH_USER_KEY, JWT_TOKEN_KEY, USER_TYPE } from "../constants";
+import { JWT_TOKEN_KEY } from "../constants";
 import { AUTH_API } from "../services/auth-api";
 import { AuthContext } from "./auth-context";
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [auth, setAuth] = useState<IAuth | undefined>();
   const [isLoading, setIsLoading] = useState(true);
-  const [auth, setAuth] = useState<IAuth>();
+  const navigate = useNavigate();
 
   // registration
   const registration = async (data: IAuth) => {
     try {
       setIsLoading(true);
       const token = await AUTH_API.registration(data);
-      if (token) {
-        Cookies.set(JWT_TOKEN_KEY, token);
-        await refreshAuth();
-        window.location.href = "/";
-      }
+      Cookies.set(JWT_TOKEN_KEY, token);
+      toast.success("Registration successful");
+      navigate("/login");
     } catch (error) {
-      console.error("Registration Error:", error);
-      toast.error("Registration failed.");
+      console.error("Registration failed:", error);
+      toast.error("Registration failed");
     } finally {
       setIsLoading(false);
     }
   };
 
   // login
-  const login = async (phone: string, password: string) => {
+  const login = async (data: ILoginPayload) => {
     try {
       setIsLoading(true);
-      const token = await AUTH_API.login({ phone, password });
-      if (token) {
-        Cookies.set(JWT_TOKEN_KEY, token);
-        await refreshAuth();
-      }
+      const token = await AUTH_API.login(data);
+      Cookies.set(JWT_TOKEN_KEY, token);
+      const user = await AUTH_API.myProfile();
+      setAuth(user);
+      toast.success("Login successful");
+      navigate("/", { replace: true });
     } catch (error) {
-      console.error("Login Error:", error);
-      toast.error("Login failed.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // updateAuth
-  const updateAuth = (newAuth: IAuth) => {
-    setAuth(newAuth);
-    Cookies.set(AUTH_USER_KEY, JSON.stringify(newAuth));
-  };
-
-  // refreshAuth
-  const refreshAuth = async () => {
-    setIsLoading(true);
-    try {
-      const data = await AUTH_API.myProfile();
-      if (data && data.type.includes(USER_TYPE)) {
-        setAuth(data);
-        Cookies.set(AUTH_USER_KEY, JSON.stringify(data));
-      } else {
-        toast.error("Invalid user type.");
-      }
-    } catch (error) {
-      console.error("Refresh Error:", error);
-      toast.error("Failed to refresh user.");
+      console.error("Login failed:", error);
+      toast.error("Login failed, please try again");
     } finally {
       setIsLoading(false);
     }
@@ -72,36 +52,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // logout
   const logout = () => {
     setAuth(undefined);
-    Cookies.remove(AUTH_USER_KEY);
     Cookies.remove(JWT_TOKEN_KEY);
-    window.location.href = "/";
+    toast.info("Logged out");
+    navigate("/", { replace: true });
   };
 
-  useEffect(() => {
-    const storedUser = Cookies.get(AUTH_USER_KEY);
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser as string) as IAuth;
-        setAuth(parsedUser);
-      } catch {
-        Cookies.remove(AUTH_USER_KEY);
-      }
+  // refresh token
+  const refreshToken = async () => {
+    try {
+      const token = await AUTH_API.refreshAuth();
+      Cookies.set(JWT_TOKEN_KEY, token);
+      const user = await AUTH_API.myProfile();
+      setAuth(user);
+    } catch (error) {
+      console.error("Refresh token failed:", error);
+      logout();
     }
-    setIsLoading(false);
+  };
+
+  // hydrate token on first load
+  useEffect(() => {
+    const token = Cookies.get(JWT_TOKEN_KEY);
+    if (token) {
+      refreshToken().finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
+  // Context value
+  const contextValue = {
+    isLoading,
+    auth,
+    registration,
+    login,
+    logout,
+    refreshToken,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        isLoading,
-        auth,
-        registration,
-        login,
-        updateAuth,
-        refreshAuth,
-        logout,
-      }}>
-      {children}
+    <AuthContext.Provider value={contextValue}>
+      {isLoading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );
 };

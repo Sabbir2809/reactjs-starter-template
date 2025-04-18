@@ -1,5 +1,5 @@
 import { AUTH_BACKEND_BASE_URL } from "../constants";
-import { createAPI } from "../lib/apiClient";
+import { createAPI } from "../lib/axios/createAPI";
 
 const AUTH = createAPI(AUTH_BACKEND_BASE_URL);
 
@@ -13,6 +13,12 @@ const login = async (body: { phone: string; password: string }) => {
   return response.token;
 };
 
+// refresh token
+const refreshAuth = async () => {
+  const response = await AUTH.get<{ token: string }>("/refresh-token");
+  return response.token;
+};
+
 const myProfile = async () => {
   const response = await AUTH.get<IAuth>("/my-profile");
   return response;
@@ -21,5 +27,6 @@ const myProfile = async () => {
 export const AUTH_API = {
   registration,
   login,
+  refreshAuth,
   myProfile,
 };

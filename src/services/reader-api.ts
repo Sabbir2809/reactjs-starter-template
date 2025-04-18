@@ -1,5 +1,5 @@
 import { READER_BACKEND_BASE_URL } from "../constants";
-import { createAPI } from "../lib/apiClient";
+import { createAPI } from "../lib/axios/createAPI";
 
 const READER = createAPI(READER_BACKEND_BASE_URL);
 
