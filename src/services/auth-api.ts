@@ -1,7 +1,7 @@
-import { AUTH_BACKEND_BASE_URL } from "../constants";
+import { AUTH_API_BASE_URL } from "../constants";
 import { createAPI } from "../lib/axios/createAPI";
 
-const AUTH = createAPI(AUTH_BACKEND_BASE_URL);
+const AUTH = createAPI(AUTH_API_BASE_URL);
 
 const registration = async (body: IAuth) => {
   const response = await AUTH.post<{ token: string }>("/registration", body);

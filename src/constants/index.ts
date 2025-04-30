@@ -4,9 +4,6 @@ export const USER_TYPE = import.meta.env.VITE_AUTH_USER_TYPE!;
 
 export const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL!;
 
-export const AUTH_BACKEND_BASE_URL = import.meta.env
-  .VITE_AUTH_BACKEND_BASE_URL!;
-export const READER_BACKEND_BASE_URL = import.meta.env
-  .VITE_READER_BACKEND_BASE_URL!;
-export const WRITER_BACKEND_BASE_URL = import.meta.env
-  .VITE_WRITER_BACKEND_BASE_URL!;
+export const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL!;
+export const READER_API_BASE_URL = import.meta.env.VITE_READER_API_BASE_URL!;
+export const WRITER_API_BASE_URL = import.meta.env.VITE_WRITER_API_BASE_URL!;
